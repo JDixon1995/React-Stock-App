@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+const axios = require('axios');
 const cors = require('cors');
 const PORT = 8000
 
@@ -15,4 +15,13 @@ app.get('/', (req, res) => {
 
 app.listen(PORT, () => {
 	console.log(`Server listening on port ${PORT}`)
+})
+
+app.get('/api/opec', async (req, res) => {
+	const opec = await axios({
+		method: "GET",
+		url: `https://data.nasdaq.com/api/v3/datasets/OPEC/ORB.json`
+	})
+	const data = await opec.data
+	res.json(data)
 })
